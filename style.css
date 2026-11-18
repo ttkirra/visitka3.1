@@ -1,0 +1,479 @@
+/* =====================================================================
+   СТИЛИ САЙТА-ВИЗИТКИ: секция 1, секция 2 (Flexbox), секция 3 (Grid), контакты
+   Палитра: бордовый #700143, сливочный #fdf8f3, лаймовый #e2eaa0, лавандовый #b79be0
+   ===================================================================== */
+
+/* :root — «переменные» цветов: вызываем по имени, например var(--purple) */
+:root {
+  --cream: #fdf8f3;
+  --purple: #700143;
+  --lime: #e2eaa0;
+  --lavender: #b79be0;
+  --pink: #fbe7ee;
+  --ink: #3b1a2c;
+}
+
+/* * — универсальный селектор: убираем стандартные отступы, размеры считаем вместе с рамкой */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }       /* плавная прокрутка по ссылкам меню */
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: "Inter", Arial, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;                   /* наклонная бегущая строка не создаёт горизонтальную прокрутку */
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* ::selection — цвет выделения текста мышью (приятная мелочь) */
+::selection { background: var(--lime); color: var(--purple); }
+
+/* ---------- Полоска прогресса прокрутки ---------- */
+.progress {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 4px;
+  background: linear-gradient(90deg, var(--lime), var(--lavender));
+  transform: scaleX(0);                 /* ширина 0, растёт от скрипта */
+  transform-origin: left;
+  z-index: 100;
+}
+
+/* ---------- Появление блоков при прокрутке (класс reveal) ----------
+   Работает только если включён JS (класс .js на <html>). Блок сначала прозрачный и чуть ниже,
+   потом получает класс .visible и плавно «всплывает» */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(var(--i, 0) * 110ms);   /* задержка по очереди для блоков в сетке */
+}
+.js .reveal.visible { opacity: 1; transform: none; }
+
+/* =====================================================================
+   СЕКЦИЯ 1 — .hero
+   ===================================================================== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 40px;
+  align-items: center;
+  padding: 120px 7vw 150px;
+  background: radial-gradient(circle at 72% 45%, #f6f0c0, transparent 55%), var(--cream);
+  overflow: hidden;
+}
+
+/* ::after — «волна» снизу: плавный переход к секции 2 */
+.hero::after {
+  content: "";
+  position: absolute;
+  left: -10%; right: -10%; bottom: -90px;
+  height: 180px;
+  background: var(--cream);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+
+/* ---------- верхняя панель ---------- */
+.top {
+  position: absolute;
+  top: 24px; left: 7vw; right: 7vw;
+  /* grid из трёх колонок: логотип слева, меню строго по центру, справа пусто (там вращающийся значок).
+     1fr auto 1fr — две крайние колонки одинаковой ширины, средняя по размеру меню, поэтому меню всегда по центру страницы */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  z-index: 3;
+}
+.logo { font-family: "Playfair Display", Georgia, serif; font-weight: 700; font-size: 20px; color: var(--purple); }
+.top nav { display: flex; justify-content: center; gap: 32px; font-size: 15px; }
+
+/* Ссылка меню: при наведении снизу «выезжает» линия (без прыжков — просто растёт ширина линии) */
+.top nav a {
+  background: linear-gradient(var(--purple), var(--purple)) no-repeat left bottom / 0 2px;
+  padding-bottom: 3px;
+  transition: background-size 0.3s;
+}
+.top nav a:hover { background-size: 100% 2px; }
+
+/* ---------- текст секции 1 ---------- */
+.hero-text, .hero-image { position: relative; z-index: 1; }
+
+/* @keyframes rise — анимация «выезда снизу». Каждая строка текста получает свою задержку (animation-delay) */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: none; }
+}
+.tag, h1 .hello, h1 .name, h1 em, .hero-text h2, .hero-text p, .buttons {
+  animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.tag { animation-delay: 0.1s; }
+h1 .hello { animation-delay: 0.25s; }
+h1 .name { animation-delay: 0.4s; }
+h1 em { animation-delay: 0.55s; }
+.hero-text h2 { animation-delay: 0.7s; }
+.hero-text p { animation-delay: 0.8s; }
+.buttons { animation-delay: 0.9s; }
+
+.tag {
+  display: inline-block;
+  background: var(--lime);
+  color: var(--purple);
+  font-size: 14px;
+  padding: 6px 18px;
+  border-radius: 20px;
+  margin-bottom: 18px;
+}
+
+h1 { font-family: "Playfair Display", Georgia, serif; color: var(--purple); line-height: 1.05; margin-bottom: 22px; }
+h1 span { display: block; }
+h1 .hello { font-size: clamp(52px, 8vw, 92px); font-weight: 900; }
+h1 .name  { font-size: clamp(28px, 4vw, 46px); font-style: italic; font-weight: 700; margin-top: 6px; }
+h1 em {
+  display: inline-block;
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 700;
+  margin-top: 8px;
+  background: linear-gradient(var(--lime), var(--lime)) no-repeat left bottom / 0 45%;   /* сначала ширина 0, анимация marker растит её */
+  animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.55s both, marker 1s ease 1.3s forwards;
+}
+
+h2 { font-size: 22px; font-weight: 500; margin-bottom: 14px; }
+.hero-text p { max-width: 36ch; margin-bottom: 30px; }
+
+/* ---------- кнопки ----------
+   Эффект без прыжков: фон — двухцветный градиент вдвое шире кнопки.
+   При наведении он сдвигается, и цвет «заливает» кнопку слева направо; сама кнопка остаётся на месте */
+.buttons { display: flex; gap: 22px; align-items: center; flex-wrap: wrap; }
+.btn { font-weight: 600; }
+.btn-main {
+  color: #fff;
+  padding: 15px 30px;
+  border-radius: 30px;
+  background: linear-gradient(90deg, var(--lime) 50%, var(--purple) 50%) right / 200% 100%;
+  transition: background-position 0.4s, color 0.4s;
+}
+.btn-main:hover { background-position: left; color: var(--purple); }
+
+/* ---------- фото ----------
+   Внешний блок .hero-image наклоняется за мышью (3D, переменные --rx/--ry ставит скрипт),
+   внутренний .photo-frame медленно «парит» (анимация float) */
+.hero-image {
+  max-width: 440px; justify-self: center; width: 100%;
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.25s ease-out;
+}
+/* ::before — лаймовая «подложка» такой же формы, чуть сдвинутая и повёрнутая: создаёт глубину без всякой рамки */
+.hero-image::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: var(--lime);
+  border-radius: 56% 44% 52% 48% / 44% 52% 48% 56%;
+  transform: translate(22px, 18px) rotate(5deg);
+  z-index: -1;
+  animation: morph 12s ease-in-out infinite reverse;
+}
+@keyframes float {
+  50% { transform: translateY(-14px); }
+}
+.photo-frame {
+  aspect-ratio: 4 / 5;
+  border-radius: 48% 52% 44% 56% / 38% 44% 56% 62%;
+  overflow: hidden;
+  box-shadow: 0 28px 50px rgba(112, 1, 67, 0.28);   /* мягкая тень вместо рамки */
+  animation: float 6s ease-in-out infinite, morph 9s ease-in-out infinite;
+}
+.photo { width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; display: block; }
+
+.chip {
+  position: absolute; top: 38%; right: -34px;
+  background: #fff; color: var(--purple);
+  border-radius: 18px; padding: 12px 20px;
+  font-size: 14px; font-weight: 600; line-height: 1.3;
+  box-shadow: 0 10px 24px rgba(112, 1, 67, 0.15);
+  transform: rotate(-12deg);
+}
+
+/* Искры ✦ медленно вращаются */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spark { position: absolute; color: #d7de7a; font-size: 40px; animation: spin 9s linear infinite; }
+.s1 { top: 4%; left: -20px; }
+.s2 { bottom: 10%; right: -10px; font-size: 26px; color: var(--lavender); animation-duration: 6s; }
+
+/* =====================================================================
+   ДВИЖУЩИЕСЯ КРАПИНКИ (создаются скриптом в блоках .dots)
+   ===================================================================== */
+.dots { position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.dots span {
+  position: absolute;
+  width: var(--size); height: var(--size);
+  border-radius: 50%;
+  background: var(--c);
+  opacity: 0.85;
+  /* transform — реакция на мышь (параллакс): сдвиг пропорционален положению курсора и «глубине» --d */
+  transform: translate(calc(var(--mx, 0) * var(--d) * 1px), calc(var(--my, 0) * var(--d) * 1px));
+  transition: transform 0.6s ease-out;
+  /* animation — медленный самостоятельный дрейф туда-обратно (alternate). Используем свойство translate,
+     чтобы оно не мешало transform выше */
+  animation: drift var(--dur) ease-in-out var(--delay) infinite alternate;
+}
+@keyframes drift { from { translate: 0 0; } to { translate: var(--ax) var(--ay); } }
+
+/* Вращающийся круговой значок в правом верхнем углу (сам по себе, без фоновой фигуры) */
+.badge {
+  position: absolute; top: 12px; right: 3vw;
+  width: 130px; height: 130px;
+  z-index: 3;
+  color: var(--purple);                   /* бордовый текст по кругу на светлом фоне */
+  animation: spin 20s linear infinite;
+}
+.badge svg { width: 100%; height: 100%; display: block; }
+.badge-core { fill: var(--lime); }          /* лаймовый кружок в центре значка */
+
+/* «Живые» формы: радиусы скругления плавно меняются — клякса и фото будто дышат */
+@keyframes morph {
+  0%, 100% { border-radius: 48% 52% 44% 56% / 38% 44% 56% 62%; }
+  50%      { border-radius: 56% 44% 52% 48% / 48% 58% 42% 52%; }
+}
+/* Подчёркивание-«маркер» под «будущий бизнес-аналитик» рисуется слева направо уже после появления текста */
+@keyframes marker { to { background-size: 100% 45%; } }
+
+/* =====================================================================
+   СЕКЦИЯ 2 — «МОИ ДОСТИЖЕНИЯ» (Flexbox)
+   ===================================================================== */
+.achievements { position: relative; overflow: hidden; padding: 20px 0 90px; text-align: center; }
+
+/* .container — ширина 92% экрана, но не больше 1140 px; по центру */
+.container { position: relative; z-index: 1; width: min(92vw, 1140px); margin: 0 auto; }
+
+.pill { display: inline-block; background: var(--lime); color: var(--purple); font-weight: 600; font-size: 14px; padding: 6px 20px; border-radius: 20px; }
+
+.achievements h2 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 900;
+  font-size: clamp(42px, 7vw, 76px);
+  color: var(--purple);
+  line-height: 1.1;
+  margin: 12px 0 6px;
+}
+.achievements h2 em { font-weight: 700; }
+.subtitle { display: inline-block; margin-bottom: 50px; background: linear-gradient(transparent 62%, var(--lime) 62%); padding: 0 14px; }
+
+/* FLEX: карточки в ряд */
+.cards { display: flex; gap: 26px; align-items: stretch; text-align: left; }
+.card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  padding: 26px;
+  background: linear-gradient(165deg, var(--pink), #fff 75%);
+  border-radius: 32px;
+  box-shadow: 0 14px 30px rgba(112, 1, 67, 0.08);
+  transition: box-shadow 0.4s;            /* при наведении — тень становится глубже и теплее; карточка не двигается */
+}
+.card:hover { box-shadow: 0 24px 50px rgba(112, 1, 67, 0.2), 0 0 40px rgba(226, 234, 160, 0.7); }
+
+.num { position: absolute; top: 20px; left: 26px; font-family: "Playfair Display", Georgia, serif; font-size: 34px; color: #cdd877; }
+.card img { width: 78%; height: auto; align-self: center; }
+.card h3 { font-size: 21px; font-weight: 700; color: var(--purple); line-height: 1.25; }
+.card p { font-size: 15px; }
+
+.card-btn {
+  margin-top: auto;
+  align-self: flex-start;
+  color: var(--purple);
+  border-radius: 30px;
+  padding: 10px 24px;
+  font-weight: 600;
+  background: linear-gradient(90deg, var(--purple) 50%, var(--lime) 50%) right / 200% 100%;   /* лаймовая заливка, при наведении — бордовая */
+  transition: background-position 0.4s, color 0.4s;
+}
+.card-btn:hover { background-position: left; color: #fff; }
+
+/* =====================================================================
+   БЕГУЩАЯ СТРОКА (marquee)
+   ===================================================================== */
+.marquee {
+  background: var(--lime);
+  color: var(--purple);
+  overflow: hidden;                      /* всё, что выезжает за края, скрыто */
+  white-space: nowrap;                   /* текст не переносится */
+  padding: 16px 0;
+  transform: rotate(-1.5deg);            /* лента слегка наклонена */
+  margin: 0 -2vw;
+  position: relative;
+  z-index: 2;
+}
+.marquee-track { display: flex; width: max-content; animation: marquee 28s linear infinite; }
+.marquee span {
+  font-family: "Playfair Display", Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(22px, 3vw, 34px);
+  padding-right: 0.5em;
+}
+/* Сдвигаем ленту на 50% влево: на этом месте вторая копия текста точно совпадает с первой — цикл бесшовный */
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* =====================================================================
+   СЕКЦИЯ 3 — «ТЕХНОЛОГИИ, КОТОРЫМИ Я ВЛАДЕЮ» (CSS GRID)
+   ===================================================================== */
+.tech-section {
+  position: relative;
+  margin-top: -30px;
+  padding: 120px 0 100px;
+  background: radial-gradient(circle at 12% 8%, #8e0f5c, transparent 45%), var(--purple);   /* тёмный фон — контраст с секцией 2 */
+  color: var(--cream);
+  text-align: center;
+  overflow: hidden;
+}
+.tech-section .container { position: relative; }
+
+.tech-section .pill { background: var(--lime); }
+.tech-section h2 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 900;
+  font-size: clamp(36px, 6vw, 66px);
+  line-height: 1.1;
+  margin: 12px 0 6px;
+}
+.tech-section h2 em { color: var(--lime); font-weight: 700; }
+.tech-section .subtitle { background: none; color: var(--lime); }
+
+/* GRID — сетка. display: grid включает сетку;
+   grid-template-columns: repeat(3, 1fr) — ТРИ колонки одинаковой ширины (1fr = одна «доля» свободного места);
+   gap — промежутки между карточками по горизонтали и вертикали.
+   Вариант с автоподбором числа колонок под ширину экрана: repeat(auto-fit, minmax(260px, 1fr)) */
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  text-align: left;
+}
+
+/* Карточка технологии: полупрозрачная, с рамкой. Внутри flex — значок слева, текст справа */
+.tech {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 28px;
+  /* «Матовое стекло»: полупрозрачный градиент светлее в левом верхнем углу + размытие фона + глубокая тень. Рамки нет */
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04));
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 20px 40px rgba(30, 0, 18, 0.35);
+  border-radius: 28px;
+  transition: box-shadow 0.4s;
+}
+
+/* grid-column: span 2 — карточка занимает две колонки сетки */
+.tech.wide { grid-column: span 2; }
+
+/* «Прожектор»: ::before рисует светящееся пятно в точке, где сейчас курсор (--x и --y ставит скрипт).
+   Пятно прозрачное (opacity: 0) и проявляется при наведении */
+.tech::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: radial-gradient(260px circle at var(--x, 50%) var(--y, 50%), rgba(226, 234, 160, 0.28), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.tech:hover { box-shadow: 0 20px 50px rgba(30, 0, 18, 0.45), 0 0 36px rgba(226, 234, 160, 0.35); }
+.tech:hover::before { opacity: 1; }
+
+/* Значок-монограмма */
+.mono {
+  flex: none;
+  width: 60px; height: 60px;
+  display: grid;                         /* grid + place-items: center — текст ровно по центру значка */
+  place-items: center;
+  background: var(--lime);
+  color: var(--purple);
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 900;
+  font-size: 22px;
+  border-radius: 18px;
+}
+.tech-body { position: relative; }
+.tech h3 { font-size: 21px; margin-bottom: 6px; }
+.tech p { font-size: 15px; opacity: 0.88; margin-bottom: 14px; }
+
+/* Теги-«таблетки» */
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tags span {
+  font-size: 12px;
+  padding: 3px 12px;
+  background: rgba(226, 234, 160, 0.16);      /* заливка вместо рамки */
+  color: var(--lime);
+  border-radius: 20px;
+}
+
+/* =====================================================================
+   БАННЕР КОНТАКТОВ (flex в строку)
+   ===================================================================== */
+.contact-wrap { padding: 90px 0 40px; text-align: center; }
+.contact {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 28px 40px;
+  background: var(--lime);
+  border-radius: 90px 40px 90px 50px;
+  text-align: left;
+}
+.heart { font-size: 44px; color: var(--purple); }
+.contact-text { flex: 1; }
+.contact h3 { font-size: 20px; color: var(--purple); }
+.contact p { font-size: 14px; }
+.cup { width: 90px; height: auto; margin: -50px 0 -30px 6px; }
+.copy { margin-top: 36px; font-size: 14px; opacity: 0.7; }
+
+/* =====================================================================
+   МЕДИАЗАПРОСЫ — адаптивность
+   ===================================================================== */
+
+/* До 900 px (планшеты): в сетке технологий вместо 3 колонок — 2.
+   Последняя одинокая карточка растягивается на обе колонки */
+@media (max-width: 900px) {
+  .tech-grid { grid-template-columns: repeat(2, 1fr); }
+  .tech:last-child { grid-column: span 2; }
+}
+
+/* До 960 px: меню скрываем, чтобы оно не налезало на логотип и вращающийся значок */
+@media (max-width: 960px) {
+  .top nav { display: none; }
+}
+
+/* До 800 px (телефоны): секция 1 в одну колонку, карточки секции 2 — в колонку (flex-direction: column) */
+@media (max-width: 800px) {
+  .hero { grid-template-columns: 1fr; padding: 130px 6vw 140px; }
+  .top nav { display: none; }
+  .badge { width: 84px; height: 84px; top: 10px; }
+  .top { right: 110px; }
+  .hero-image { max-width: 320px; }
+  .chip { right: -10px; }
+  .cards { flex-direction: column; }
+  .contact { flex-wrap: wrap; border-radius: 40px; padding: 26px; }
+  .cup { display: none; }
+}
+
+/* До 560 px (узкие телефоны): сетка технологий — одна колонка, «широкие» карточки перестают быть широкими */
+@media (max-width: 560px) {
+  .tech-grid { grid-template-columns: 1fr; }
+  .tech.wide, .tech:last-child { grid-column: auto; }
+  .tech { flex-direction: column; }
+}
+
+/* Если у человека в системе включено «уменьшить движение» — отключаем все анимации */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .js .reveal { opacity: 1; transform: none; }
+}

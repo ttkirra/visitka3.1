@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<!-- DOCTYPE — сообщает браузеру, что это страница HTML5 -->
+<!-- HTML — корневой тег; lang="ru" — язык страницы -->
+<html lang="ru">
+
+<!-- HEAD — служебная часть, на экране не видна -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- TITLE — название во вкладке браузера -->
+  <title>Кира Толкачёва — бизнес-аналитик</title>
+
+  <!-- Шрифты с Google Fonts: Playfair Display (заголовки) и Inter (основной текст) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,600;1,700&display=swap" rel="stylesheet">
+
+  <!-- Подключаем файл стилей style.css -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Маленький скрипт: добавляет странице класс "js". По нему CSS знает, что анимации появления можно включать
+       (если JavaScript отключён, весь контент просто виден сразу) -->
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+
+<!-- BODY — видимая часть страницы -->
+<body id="top">
+
+  <!-- Полоска прокрутки сверху: растёт по мере того, как читаешь страницу (управляется скриптом внизу) -->
+  <div class="progress" id="progress"></div>
+
+  <!-- ================= СЕКЦИЯ 1 — ГЛАВНЫЙ ЭКРАН ================= -->
+  <section class="hero">
+
+    <!-- Движущиеся «крапинки»: скрипт внизу создаёт здесь кружки (data-count — сколько, data-palette — набор цветов) -->
+    <div class="dots" data-count="12" data-palette="light"></div>
+
+    <!-- HEADER — верхняя панель: логотип, меню, кнопка -->
+    <header class="top">
+      <a class="logo" href="#top"><span class="star">✦</span> Кира Толкачёва</a>
+
+      <!-- NAV — навигация. Ссылки с # ведут к блокам этой же страницы по их id -->
+      <nav>
+        <a href="#top">Обо мне</a>
+        <a href="#achievements">Мои достижения</a>
+        <a href="#tech">Технологии</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+
+    </header>
+
+    <!-- Вращающийся круговой значок в углу (вместо кнопки). Это SVG-картинка: текст пущен по кругу
+         с помощью <textPath>, а CSS-анимация медленно крутит весь значок -->
+    <div class="badge" aria-hidden="true">
+      <svg viewBox="0 0 120 120">
+        <!-- path — невидимая окружность, по которой «бежит» текст -->
+        <path id="circ" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" fill="none"/>
+        <text font-size="11" font-weight="700" fill="currentColor">
+          <textPath href="#circ" textLength="272" lengthAdjust="spacing">ДАННЫЕ • ПРОЦЕССЫ • РЕШЕНИЯ • ВЫВОДЫ • </textPath>
+        </text>
+        <!-- лаймовый кружок и звёздочка в центре -->
+        <circle class="badge-core" cx="60" cy="60" r="20"/>
+        <text x="60" y="69" text-anchor="middle" font-size="26" fill="currentColor">✦</text>
+      </svg>
+    </div>
+
+    <!-- Левая колонка: тексты. Каждая строка при загрузке плавно «выезжает» (анимация rise в CSS) -->
+    <div class="hero-text">
+      <span class="tag">✦ бизнес-аналитика · данные · процессы</span>
+
+      <!-- H1 — главный заголовок. SPAN внутри — отдельные строки с разным оформлением -->
+      <h1>
+        <span class="hello">Привет!</span>
+        <span class="name">Я Кира Толкачёва —</span>
+        <em>будущий бизнес-аналитик</em>
+      </h1>
+
+      <h2>Превращаю данные и процессы<br>в понятные решения ♡</h2>
+      <p>Учусь анализировать данные, описывать бизнес-процессы и находить точки роста.</p>
+
+      <!-- Одна главная кнопка: ведёт к следующей секции. Кнопка «Связаться» теперь только внизу страницы -->
+      <div class="buttons">
+        <a class="btn btn-main" href="#achievements">Мои достижения ↓</a>
+      </div>
+    </div>
+
+    <!-- Правая колонка: фото. При движении мыши фото слегка наклоняется (скрипт внизу) -->
+    <figure class="hero-image">
+      <!-- DIV .photo-frame — рамка-«клякса» с лаймовой обводкой; медленно «парит» -->
+      <div class="photo-frame">
+        <img class="photo" src="kira.jpg"
+             alt="Кира Толкачёва в солнечных очках на фоне ромашкового поля"
+             width="853" height="1280">
+      </div>
+      <span class="chip">▂▄▆ Данные<br>→ Выводы ✦</span>
+      <!-- Вращающиеся искры -->
+      <span class="spark s1">✦</span>
+      <span class="spark s2">✦</span>
+    </figure>
+  </section>
+
+  <!-- ================= СЕКЦИЯ 2 — «МОИ ДОСТИЖЕНИЯ» ================= -->
+  <section class="achievements" id="achievements">
+    <div class="dots" data-count="12" data-palette="light"></div>
+    <!-- DIV .container — обёртка: ширина 92% экрана, но не больше 1140 px, по центру -->
+    <div class="container">
+
+      <!-- Класс reveal — элемент плавно появляется, когда долистали до него -->
+      <span class="pill reveal">✦ Мои достижения</span>
+      <h2 class="reveal">Мои <em>достижения</em></h2>
+      <p class="subtitle reveal">Учебные проекты, которыми я горжусь</p>
+
+      <!-- DIV .cards — FLEX-контейнер: три карточки в ряд (на телефоне — в колонку, см. @media) -->
+      <div class="cards">
+        <article class="card reveal">
+          <span class="num">01</span>
+          <img src="research.svg" alt="Иллюстрация: дашборд с лупой" width="400" height="260">
+          <h3>Научная работа об ИИ в бизнесе</h3>
+          <p>Исследовала, какие бизнес-процессы и функции персонала можно передать искусственному интеллекту, на примере международного банка.</p>
+          <a class="card-btn" href="#">Подробнее →</a>
+        </article>
+
+        <article class="card reveal">
+          <span class="num">02</span>
+          <img src="model.svg" alt="Иллюстрация: монеты и стрелка роста" width="400" height="260">
+          <h3>Моделирование инвестиций</h3>
+          <p>Строю имитационную модель инвестиционного проекта в Excel: макрос, расчёт чистой приведённой стоимости и реальный кейс.</p>
+          <a class="card-btn" href="#">Подробнее →</a>
+        </article>
+
+        <article class="card reveal">
+          <span class="num">03</span>
+          <img src="database.svg" alt="Иллюстрация: база данных и шестерёнка" width="400" height="260">
+          <h3>Проектирование баз данных</h3>
+          <p>Разрабатывала структуры баз данных: ER-модели, JSON-схемы и запросы в Access.</p>
+          <a class="card-btn" href="#">Подробнее →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= БЕГУЩАЯ СТРОКА (marquee) =================
+       Широкая лента, по которой бесконечно едет текст. Текст написан дважды —
+       анимация сдвигает ленту ровно на половину, и получается бесшовный цикл.
+       aria-hidden — программы для чтения с экрана эту декорацию пропускают -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>БИЗНЕС-АНАЛИТИКА ✦ ДАННЫЕ ✦ ПРОЦЕССЫ ✦ ВЫВОДЫ ✦ МОДЕЛИ ✦ РЕШЕНИЯ ✦ </span>
+      <span>БИЗНЕС-АНАЛИТИКА ✦ ДАННЫЕ ✦ ПРОЦЕССЫ ✦ ВЫВОДЫ ✦ МОДЕЛИ ✦ РЕШЕНИЯ ✦ </span>
+    </div>
+  </div>
+
+  <!-- ================= СЕКЦИЯ 3 — «ТЕХНОЛОГИИ, КОТОРЫМИ Я ВЛАДЕЮ» =================
+       Фон тёмно-бордовый — контрастный к светлой секции 2. Ширина и отступы — как в секции 2 -->
+  <section class="tech-section" id="tech">
+    <div class="dots" data-count="18" data-palette="dark"></div>
+    <div class="container">
+
+      <span class="pill reveal">✦ Мой инструментарий</span>
+      <h2 class="reveal">Технологии, <em>которыми я владею</em></h2>
+      <p class="subtitle reveal">Всё, с чем работала на практике</p>
+
+      <!-- DIV .tech-grid — GRID-контейнер: карточки раскладываются по сетке из 3 колонок.
+           Колонки и строки задаёт CSS (grid-template-columns). Каждая карточка — ARTICLE.
+           Внутри: DIV-значок, DIV-обёртка с текстом (заголовок, описание, теги) -->
+      <div class="tech-grid">
+
+        <!-- Класс wide — карточка занимает СРАЗУ ДВЕ колонки (grid-column: span 2) -->
+        <article class="tech wide reveal">
+          <div class="mono">XL</div>
+          <div class="tech-body">
+            <h3>Microsoft Excel</h3>
+            <p>Считаю модели в Excel: оптимизация через «Поиск решения», имитационное моделирование и макросы.</p>
+            <div class="tags"><span>формулы</span><span>Поиск решения</span><span>макросы</span></div>
+          </div>
+        </article>
+
+        <article class="tech reveal">
+          <div class="mono">Ac</div>
+          <div class="tech-body">
+            <h3>Microsoft Access</h3>
+            <p>Создаю таблицы и связи, строю запросы выборки и параметрические запросы.</p>
+            <div class="tags"><span>запросы</span><span>таблицы</span></div>
+          </div>
+        </article>
+
+        <article class="tech reveal">
+          <div class="mono">Vi</div>
+          <div class="tech-body">
+            <h3>Microsoft Visio</h3>
+            <p>Рисую ER-диаграммы и схемы бизнес-процессов в нотации EPC.</p>
+            <div class="tags"><span>ER</span><span>EPC</span></div>
+          </div>
+        </article>
+
+        <article class="tech wide reveal">
+          <div class="mono">&lt;/&gt;</div>
+          <div class="tech-body">
+            <h3>HTML и CSS</h3>
+            <p>Верстаю адаптивные страницы: Flexbox, Grid, медиазапросы. Этот сайт сделан именно так.</p>
+            <div class="tags"><span>Flexbox</span><span>Grid</span><span>@media</span></div>
+          </div>
+        </article>
+
+        <article class="tech reveal">
+          <div class="mono">{ }</div>
+          <div class="tech-body">
+            <h3>JSON и PlantUML</h3>
+            <p>Проектирую структуру NoSQL-баз в формате JSON и описываю её диаграммами.</p>
+            <div class="tags"><span>NoSQL</span><span>диаграммы</span></div>
+          </div>
+        </article>
+
+        <article class="tech reveal">
+          <div class="mono">.*</div>
+          <div class="tech-body">
+            <h3>Регулярные выражения</h3>
+            <p>Нахожу и извлекаю данные по шаблонам в Excel и Word.</p>
+            <div class="tags"><span>RegExp</span><span>шаблоны</span></div>
+          </div>
+        </article>
+
+        <article class="tech reveal">
+          <div class="mono">Git</div>
+          <div class="tech-body">
+            <h3>GitHub Pages</h3>
+            <p>Публикую сайты в интернете прямо из репозитория.</p>
+            <div class="tags"><span>GitHub</span><span>хостинг</span></div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= БАННЕР КОНТАКТОВ ================= -->
+  <section class="contact-wrap">
+    <div class="container">
+      <!-- DIV .contact — flex-контейнер: сердечко, текст, кнопка и чашка в одну строку -->
+      <div class="contact reveal" id="contacts">
+        <span class="heart">♡</span>
+        <div class="contact-text">
+          <h3>Давайте создадим что-то классное вместе!</h3>
+          <p>Свяжитесь со мной, и я с радостью расскажу больше о себе и своих проектах ♡</p>
+        </div>
+        <a class="btn btn-main" href="https://t.me/ttkirrra" target="_blank" rel="noopener">Написать мне ↗</a>
+        <img class="cup" src="cup.svg" alt="Иллюстрация: стаканчик кофе" width="160" height="200">
+      </div>
+      <p class="copy">© 2026 Кира Толкачёва</p>
+    </div>
+  </section>
+
+  <!-- ================= СКРИПТ (JavaScript) — три эффекта ================= -->
+  <script>
+    /* 1) Плавное появление блоков при прокрутке.
+          IntersectionObserver следит, когда элемент входит в экран, и добавляет ему класс "visible" */
+    const reveals = document.querySelectorAll(".reveal");
+    // Блоки в одной сетке появляются по очереди: номер блока (--i) умножается на задержку в CSS
+    document.querySelectorAll(".cards, .tech-grid").forEach(group => {
+      group.querySelectorAll(".reveal").forEach((el, i) => el.style.setProperty("--i", i));
+    });
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    reveals.forEach(el => io.observe(el));
+
+    /* 2) Подсветка-«прожектор» на карточках технологий: CSS-переменные --x и --y хранят положение курсора
+          внутри карточки, а CSS рисует там светящееся пятно */
+    document.querySelectorAll(".tech").forEach(card => {
+      card.addEventListener("pointermove", e => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty("--x", (e.clientX - r.left) + "px");
+        card.style.setProperty("--y", (e.clientY - r.top) + "px");
+      });
+    });
+
+    /* 3) Лёгкий 3D-наклон фото вслед за мышью (в секции 1) */
+    const hero = document.querySelector(".hero");
+    const photo = document.querySelector(".hero-image");
+    hero.addEventListener("pointermove", e => {
+      const r = photo.getBoundingClientRect();
+      const x = (e.clientX - (r.left + r.width / 2)) / innerWidth;
+      const y = (e.clientY - (r.top + r.height / 2)) / innerHeight;
+      photo.style.setProperty("--ry", (x * 14) + "deg");
+      photo.style.setProperty("--rx", (-y * 14) + "deg");
+    });
+    hero.addEventListener("pointerleave", () => {
+      photo.style.setProperty("--ry", "0deg");
+      photo.style.setProperty("--rx", "0deg");
+    });
+
+    /* 4) Крапинки: создаём кружки случайного размера, цвета и положения.
+          У каждого свои параметры в CSS-переменных: размер (--size), «глубина» для параллакса (--d),
+          длительность и задержка дрейфа (--dur, --delay) и амплитуда смещения (--ax, --ay) */
+    const palettes = {
+      light: ["#e2eaa0", "#b79be0", "#ffe0b3", "#700143"],
+      dark:  ["#e2eaa0", "#ffe0b3", "#b79be0"]
+    };
+    const rnd = (a, b) => a + Math.random() * (b - a);
+    document.querySelectorAll(".dots").forEach(box => {
+      const colors = palettes[box.dataset.palette];
+      for (let i = 0; i < +box.dataset.count; i++) {
+        const dot = document.createElement("span");
+        dot.style.left = rnd(1, 98) + "%";
+        dot.style.top = rnd(2, 96) + "%";
+        dot.style.setProperty("--size", rnd(8, 24) + "px");
+        dot.style.setProperty("--c", colors[Math.floor(rnd(0, colors.length))]);
+        dot.style.setProperty("--d", rnd(8, 40));
+        dot.style.setProperty("--dur", rnd(7, 15) + "s");
+        dot.style.setProperty("--delay", -rnd(0, 12) + "s");
+        dot.style.setProperty("--ax", rnd(-24, 24) + "px");
+        dot.style.setProperty("--ay", rnd(-34, 34) + "px");
+        box.appendChild(dot);
+      }
+    });
+    /* Параллакс: положение мыши (от -1 до 1) записываем в --mx и --my; крапинки сдвигаются
+       каждая на своё расстояние (--d), поэтому создаётся ощущение глубины */
+    addEventListener("pointermove", e => {
+      const root = document.documentElement.style;
+      root.setProperty("--mx", ((e.clientX / innerWidth) - 0.5) * 2);
+      root.setProperty("--my", ((e.clientY / innerHeight) - 0.5) * 2);
+    });
+
+    /* 5) Полоска прогресса прокрутки сверху страницы */
+    const bar = document.getElementById("progress");
+    addEventListener("scroll", () => {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      bar.style.transform = "scaleX(" + (max > 0 ? scrollY / max : 0) + ")";
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
